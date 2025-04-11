@@ -33,13 +33,13 @@ public class ItemFrameProcessor extends StructureProcessor {
                                                                StructureTemplate.StructureEntityInfo globalEntityInfo,
                                                                StructurePlaceSettings structurePlaceSettings,
                                                                StructureTemplate template) {
-        if (globalEntityInfo.nbt.getString("id").equals("minecraft:item_frame")) {
+        if (globalEntityInfo.nbt.getString("id").get().equals("minecraft:item_frame")) {
             RandomSource random = structurePlaceSettings.getRandom(globalEntityInfo.blockPos);
 
             // Determine which pool we are grabbing from
             String item;
             try {
-                item = globalEntityInfo.nbt.getCompound("Item").get("id").toString();
+                item = globalEntityInfo.nbt.getCompoundOrEmpty("Item").get("id").toString();
             } catch (Exception e) {
                 BetterStrongholdsCommon.LOGGER.info("Unable to randomize item frame at {}", globalEntityInfo.blockPos);
                 return globalEntityInfo;
@@ -50,14 +50,14 @@ public class ItemFrameProcessor extends StructureProcessor {
             if (item.equals("\"minecraft:iron_sword\"")) { // Armoury pool
                 String randomItemString = BuiltInRegistries.ITEM.getKey(ItemFrameChances.get().getArmouryItem(random)).toString();
                 if (!randomItemString.equals("minecraft:air")) {
-                    newNBT.getCompound("Item").putString("id", randomItemString);
+                    newNBT.getCompoundOrEmpty("Item").putString("id", randomItemString);
                 } else {
                     newNBT.remove("Item");
                 }
             } else if (item.equals("\"minecraft:bread\"")) { // Storage pool
                 String randomItemString = BuiltInRegistries.ITEM.getKey(ItemFrameChances.get().getStorageItem(random)).toString();
                 if (!randomItemString.equals("minecraft:air")) {
-                    newNBT.getCompound("Item").putString("id", randomItemString);
+                    newNBT.getCompoundOrEmpty("Item").putString("id", randomItemString);
                 } else {
                     newNBT.remove("Item");
                 }

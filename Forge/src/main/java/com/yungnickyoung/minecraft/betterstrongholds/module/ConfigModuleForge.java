@@ -25,11 +25,11 @@ public class ConfigModuleForge {
     public static final String CUSTOM_CONFIG_PATH = "betterstrongholds";
     public static final String VERSION_PATH = "forge-1_21";
 
-    public static void init() {
+    public static void init(FMLJavaModLoadingContext fmlJavaModLoadingContext) {
         initCustomFiles();
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BSConfigForge.SPEC, "betterstrongholds-forge-1_21.toml");
+        fmlJavaModLoadingContext.registerConfig(ModConfig.Type.COMMON, BSConfigForge.SPEC, "betterstrongholds-forge-1_21.toml");
         MinecraftForge.EVENT_BUS.addListener(ConfigModuleForge::onWorldLoad);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(ConfigModuleForge::onConfigChange);
+        fmlJavaModLoadingContext.getModEventBus().addListener(ConfigModuleForge::onConfigChange);
     }
 
     private static void onWorldLoad(LevelEvent.Load event) {
